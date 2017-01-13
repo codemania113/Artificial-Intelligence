@@ -16,16 +16,9 @@
 
 using namespace std;
 
-//map < string, vector<string> > kb;
-//map < string, vector<string> >::iterator it_kb;
-
-//queue<string> kb;
 map <string,int> kb;
 map <string,int>::iterator it_kb;
 char str5[1001];
-//string clause;
-//char expr1[1001];
-//char expr2[1001];
 map <string,int>kbase;
 
 int resolve(string clausei,string clausej,char* new_clause)
@@ -41,9 +34,6 @@ int resolve(string clausei,string clausej,char* new_clause)
     int i,j,k;
     i = 0;
     int cannot_unify = 0;
-    //cout<<"new clause "<<new_clause<<endl;
-    //cout<<"clause i "<<clausei<<endl;
-    //cout<<"clause j "<<clausej<<endl;
 
     while(clausei[i] != '\0')
     {
@@ -57,7 +47,6 @@ int resolve(string clausei,string clausej,char* new_clause)
             k++;
             j++;
         }
-        //strcpy(key,clause+i);
         key[k] = '\0';
         if(key[0] != '~')
         {
@@ -68,8 +57,6 @@ int resolve(string clausei,string clausej,char* new_clause)
         {
             strcpy(neg_key,key+1);
         }
-
-        //cout<<neg_key<<endl;
 
         int p,q,r;
         cannot_unify = 0;
@@ -90,14 +77,9 @@ int resolve(string clausei,string clausej,char* new_clause)
             }
             //strcpy(key,clause+i);
             temp_key[r] = '\0';
-            //cout<<temp_key<<endl;
-
-            //cout<<"TEMP KEY IN ANOTHER EXPRESSION "<<temp_key<<endl;
+ 
             if(!strcmp(temp_key,neg_key))
             {
-                //cout<<"entered strcmp\n";
-                //cout<<"clause i "<<clausei<<endl;
-                //cout<<"clause j "<<clausej<<endl;
                 idx1 = j+1;
                 idx2 = q+1;
                 map <string,string> unify;
@@ -108,18 +90,13 @@ int resolve(string clausei,string clausej,char* new_clause)
 
                 while((clausej[idx2] != ')') || (clausei[idx1] != ')'))
                 {
-                    //cout<<"entered while loop \n";
                     if(((clausei[idx1+1] == ',') || (clausei[idx1+1] == ')')) && ((clausej[idx2+1] == ',') || (clausej[idx2+1] == ')')))
                     {
-                        //cout<<"A\n";
-                        //already = 1;
                         if(clausei[idx1] != clausej[idx2])
                         {
-                            //string a,b,c,d;
                             a = clausej[idx2];
                             a[1]='\0';
                             b = clausei[idx1];
-                            //int l = b.length();
                             b[1] = '\0';
                             it_unify1 = unify.find(a);
                             it_unify2 = unify.find(b);
@@ -145,22 +122,16 @@ int resolve(string clausei,string clausej,char* new_clause)
                                 if((c.length() == 1) && (d.length() == 1))
                                 {
                                     unify.erase(b);
-                                    //unify.insert(pair<string,string>(a,b));
                                     unify.insert(pair<string,string>(b,c));
-                                    //unified = 1;
-                                    //break;
-
                                 }
                                 else if((c.length() != 1) && (d.length() == 1))
                                 {
                                     unify.erase(b);
-                                    //unify.insert(pair<string,string>(a,b));
                                     unify.insert(pair<string,string>(b,c));
                                 }
                                 else if((c.length() == 1) && (d.length() != 1))
                                 {
                                     unify.erase(a);
-                                    //unify.insert(pair<string,string>(a,b));
                                     unify.insert(pair<string,string>(a,d));
                                 }
                                 else
@@ -182,14 +153,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                     }
                     else if((((clausei[idx1+1] == ',') || (clausei[idx1+1] == ')')) && ((clausej[idx2+1] != ',') || (clausej[idx2+1] != ')'))))
                     {
-                        // unify constant and variable x John
-                        //parent.insert(pair<string,struct node>(start_state, n3))
-                        //cout<<"B condition \n";
-                        //cout<<clausei[idx1]<<endl;
-                        //cout<<clausej[idx2]<<endl;
-                        //cout<<idx1<<endl;
-                        //cout<<idx2<<endl;
-                        //already = 1;
                         int ff = 0;
                         while((clausej[idx2] != ',') && (clausej[idx2] != ')'))
                         {
@@ -199,9 +162,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                         }
 
                         temp1[ff] = '\0';
-                        //idx2++;
-
-                        //string a,b,c;
                         a = clausei[idx1];
                         a[1]='\0';
                         b = temp1;
@@ -209,8 +169,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                         if(it_unify == unify.end())
                         {
                             unify.insert(pair<string,string>(a,b));
-                            //unified = 1;
-                            //break;
                         }
                         else
                         {
@@ -220,9 +178,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                                 unify.erase(a);
                                 unify.insert(pair<string,string>(a,b));
                                 unify.insert(pair<string,string>(c,b));
-                                //unified = 1;
-                                //break;
-
                             }
                             else
                             {
@@ -241,8 +196,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                     }
                     else if(((clausei[idx1+1] != ',') || (clausei[idx1+1] != ')')) && ((clausej[idx2+1] == ',') || (clausej[idx2+1] == ')')))
                     {
-                        // unify constant and variable x John
-                        //cout<<"Condition C\n";
 
                         int ff = 0;
                         while((clausei[idx1] != ',') && (clausei[idx1] != ')'))
@@ -254,38 +207,26 @@ int resolve(string clausei,string clausej,char* new_clause)
 
 
                         temp1[ff] = '\0';
-                        //idx1++;
-                        //string a,b,c;
                         a = clausej[idx2];
                         a[1]='\0';
                         b = temp1;
-                        //cout<<a<<endl;
-                        //cout<<b<<endl;
                         it_unify = unify.find(a);
                         if(it_unify == unify.end())
                         {
-                            //cout<<"1\n";
                             unify.insert(pair<string,string>(a,b));
-                            //unified = 1;
-                            //break;
                         }
                         else
                         {
-
-                            c = it_unify->second;
+							c = it_unify->second;
                             if(c.length() == 1)
                             {
-                                //cout<<"2\n";
                                 unify.erase(a);
                                 unify.insert(pair<string,string>(a,b));
                                 unify.insert(pair<string,string>(c,b));
-                                //unified = 1;
-                                //break;
 
                             }
                             else
                             {
-                                //cout<<"3\n";
                                 cannot_unify = 1;
                                 break;
                             }
@@ -297,20 +238,12 @@ int resolve(string clausei,string clausej,char* new_clause)
                         }
                         idx2 = idx2+2;
                         idx1++;
-                        //cout<<clausej[idx2+1]<<endl;
-                        //cout<<clausei[idx1+1]<<endl;
                     }
                     else if(((clausei[idx1+1] != ',') || (clausei[idx1+1] != ')')) && ((clausej[idx2+1] != ',') || (clausej[idx2+1] != ')')))
                     {
-                        //cout<<"D\n";
-                        //cout<<idx1<<endl;
-                        //cout<<idx2<<endl;
-                        //cout<<clausei[idx1]<<endl;
-                        //cout<<clausej[idx2]<<endl;
 
                         while(((clausei[idx1] != ',') && (clausei[idx1] != ')')) && ((clausej[idx2] != ',') && (clausej[idx2] != ')')))
                         {
-                            //cout<<"Hey\n";
                             if((clausei[idx1] != clausej[idx2]))
                                 break;
                             idx1++;
@@ -318,7 +251,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                         }
                         if(((clausei[idx1] == ',') || (clausei[idx1] == ')')) && ((clausej[idx2] == ',') || (clausej[idx2] == ')')))
                         {
-                            //cout<<"11111\n";
                             if((clausei[idx1] == ')') && ((clausej[idx2] == ')')))
                             {
                                 break;
@@ -329,7 +261,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                         }
                         else
                         {
-                            //cout<<"22222\n";
                             cannot_unify = 1;
                             break;
                         }
@@ -364,9 +295,7 @@ int resolve(string clausei,string clausej,char* new_clause)
                             K++;
                             J++;
                         }
-                        //strcpy(key,clause+i);
                         abc[K] = '\0';
-                        //cout<<abc<<endl;
                         if(!strcmp(abc,key))
                         {
                             strcpy(t_new_clause,aaa);
@@ -374,7 +303,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                                 t_new_clause[I] = '\0';
                             else
                                 t_new_clause[I-1] = '\0';
-                            //cout<<new_clause<<endl;
                             while(aaa[J] != ')')
                             {
                                 J++;
@@ -398,23 +326,13 @@ int resolve(string clausei,string clausej,char* new_clause)
                     if(t_new_clause[0] == '|')
                     {
                         strcpy(t_new_clause,t_new_clause+1);
-                    }
+                    }	
 
-                    /*strcat(t_new_clause,aaa+I);
-                    if(t_new_clause[0] == '|')
-                    {
-                        strcpy(t_new_clause,t_new_clause+1);
-                    }*/
-
-                    //cout<<"New clause first expression "<<t_new_clause<<endl;
-
-                    /////////////////////////////////////////////////////////
                     char def[1001];
                     char temp4[1001];
                     char bbb[100001];
                     strcpy(bbb,clausej.c_str());
                     char *temp_new_clause = (char*)malloc(sizeof(char)*100001);
-                    //int I,J,K;
 
                     I = 0;
                     while(bbb[I] != '\0')
@@ -429,9 +347,7 @@ int resolve(string clausei,string clausej,char* new_clause)
                             K++;
                             J++;
                         }
-                        //strcpy(key,clause+i);
                         def[K] = '\0';
-                        //cout<<abc<<endl;
                         if(!strcmp(def,neg_key))
                         {
                             strcpy(temp_new_clause,bbb);
@@ -439,7 +355,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                                 temp_new_clause[I] = '\0';
                             else
                                 temp_new_clause[I-1] = '\0';
-                            //cout<<new_clause<<endl;
                             while(bbb[J] != ')')
                             {
                                 J++;
@@ -464,15 +379,7 @@ int resolve(string clausei,string clausej,char* new_clause)
                     {
                         strcpy(temp_new_clause,temp_new_clause+1);
                     }
-
-                    /*strcat(temp_new_clause[0] == '|')
-                    {
-                        strcpy(temp_new_clause,temp_new_clause+1);
-                    }*/
-
-                    //cout<<"New clause second expression "<<temp_new_clause<<endl;
-
-                    //////////////////////////////////////////////////////////////
+					
                     ///////////////// unify second clause/////////////////////////
                     char temp5[1001];
                     //int i,j,k;
@@ -499,12 +406,10 @@ int resolve(string clausei,string clausej,char* new_clause)
                             {
                                 temp5[0] = temp_new_clause[I];
                                 temp5[1] = '\0';
-                                //strcat(final_clause,clause);
 
                                 it_unify = unify.find(temp5);
                                 if(it_unify != unify.end())
                                 {
-                                    //cout<<"Inside map \n";
                                     string g = it_unify->second;
                                     strcat(final_clause,g.c_str());
                                 }
@@ -535,7 +440,7 @@ int resolve(string clausei,string clausej,char* new_clause)
                                 temp5[J] = temp_new_clause[I];
                                 temp5[J+1] = '\0';
                                 strcat(final_clause,temp5);
-                                //here i is automatically pointing to comma or brace
+
                                 if(temp_new_clause[I] == ')')
                                     break;
                                 else
@@ -544,10 +449,6 @@ int resolve(string clausei,string clausej,char* new_clause)
                         }
                         I++;
                     }
-                    //cout<<"Substituted clause is "<<final_clause<<endl;
-                    //strcpy(new_clause,final_clause);
-                    //cout<<"New clause is "<<new_clause<<endl;
-
 
                     if((!strcmp(t_new_clause,"")) && (!strcmp(temp_new_clause,"")))
                     {
@@ -588,9 +489,7 @@ int resolve(string clausei,string clausej,char* new_clause)
                             K++;
                             J++;
                         }
-                        //strcpy(key,clause+i);
                         k1[K] = '\0';
-                        //cout<<k1<<endl;
                         if(k1[0] != '~')
                         {
                             strcpy(neg_k1,(const char*)"~");
@@ -600,42 +499,26 @@ int resolve(string clausei,string clausej,char* new_clause)
                         {
                             strcpy(neg_k1,k1+1);
                         }
-                        //cout<<neg_k1<<endl;
-
-                        //int P,Q,R;
                         P = 0;
-                        //cout<<final_clause<<endl;
                         while(new_clause[P] != '\0')
                         {
-                            //cout<<"entered first while \n";
                             if(new_clause[P] == '|')
                                 P++;
                             Q = P;
                             R = 0;
-                            //cout<<"P "<<P<<endl;
-                            //cout<<"Q "<<Q<<endl;
-                            //cout<<"R "<<R<<endl;
                             while(new_clause[Q] != '(')
                             {
                                 k2[R] = new_clause[Q];
-                                //cout<<k2[R]<<endl;
-                                //cout<<final_clause[Q]<<endl;
                                 Q++;
                                 R++;
 
                             }
-                            //strcpy(key,clause+i);
                             k2[R] = '\0';
-                            //cout<<k2<<endl;
                             if(!strcmp(neg_k1,k2))
                             {
-                                //cout<<"entered strcmp\n";
-                                //cout<<neg_k1<<endl;
-                                //cout<<k2<<endl;
                                 tautology = 1;
                                 break;
                             }
-                            //cout<<"after while key is "<<key<<endl;
                             while(new_clause[Q] != ')')
                             {
                                 Q++;
@@ -654,14 +537,7 @@ int resolve(string clausei,string clausej,char* new_clause)
                     if(tautology == 1)
                     {
                         strcpy(new_clause,"");
-                       	//cout<<"Tautology found\n";
-                        //cout<<"New clause is "<<new_clause<<endl;
                     }
-                    //cout<<"Tautology found "<<tautology<<endl;
-
-                    //cout<<"Finalllllllyyyyyyyyyyy new clause is "<<new_clause<<endl;
-
-
                     unified = 1;
                     break;
                 }
@@ -682,142 +558,34 @@ int resolve(string clausei,string clausej,char* new_clause)
     }
     if(unified == 1)
     {
-        //cout<<"I am unified\n";
         if(tautology == 1)
         {
-            //cout<<"tautology found  ";
-            //ofile<<"TAUTOLOGY FOUND \n"
-            //cout<<"new clause is "<<new_clause<<endl;
             return 0;
         }
         if(!strcmp(new_clause,""))
         {
-            //cout<<"unuuuuuuuuuuuuu Contradiction new clause is "<<new_clause<<endl;
-            //cout<<"New clause "<<new_clause<<endl;
             return 1;
         }
         else
         {
-            //cout<<"AAAAAAAAAAAA new clause formed"<<new_clause<<endl;;
-            //cout<<"New clause "<<new_clause<<endl;
-            // remove tautology here
-
-
-            /*char k1[1001];
-            char neg_k1[1001];
-            char k2[1001];
-            int taut = 0;
-            int I,J,K;
-            I = 0;
-            int P,Q,R;
-            while(new_clause[I] != '\0')
-            {
-                if(new_clause[I] == '|')
-                    I++;
-                J = I;
-                K = 0;
-                while(new_clause[J] != '(')
-                {
-                    k1[K] = new_clause[J];
-                    K++;
-                    J++;
-                }
-                //strcpy(key,clause+i);
-                k1[K] = '\0';
-                //cout<<k1<<endl;
-                if(k1[0] != '~')
-                {
-                    strcpy(neg_k1,(const char*)"~");
-                    strcat(neg_k1,k1);
-                }
-                else
-                {
-                    strcpy(neg_k1,k1+1);
-                }
-                //cout<<neg_k1<<endl;
-
-                //int P,Q,R;
-                P = 0;
-                //cout<<final_clause<<endl;
-                while(new_clause[P] != '\0')
-                {
-                    //cout<<"entered first while \n";
-                    if(new_clause[P] == '|')
-                        P++;
-                    Q = P;
-                    R = 0;
-                    //cout<<"P "<<P<<endl;
-                    //cout<<"Q "<<Q<<endl;
-                    //cout<<"R "<<R<<endl;
-                    while(new_clause[Q] != '(')
-                    {
-                        k2[R] = new_clause[Q];
-                        //cout<<k2[R]<<endl;
-                        //cout<<final_clause[Q]<<endl;
-                        Q++;
-                        R++;
-
-                    }
-                    //strcpy(key,clause+i);
-                    k2[R] = '\0';
-                    //cout<<k2<<endl;
-                    if(!strcmp(neg_k1,k2))
-                    {
-                        //cout<<"entered strcmp\n";
-                        //cout<<neg_k1<<endl;
-                        //cout<<k2<<endl;
-                        taut = 1;
-                        break;
-                    }
-                    //cout<<"after while key is "<<key<<endl;
-                    while(new_clause[Q] != ')')
-                    {
-                        Q++;
-                    }
-                    P = Q+1;
-                }
-                if(taut == 1)
-                    break;
-                while(new_clause[J] != ')')
-                {
-                    J++;
-                }
-                I = J+1;
-            }
-
-            if(taut == 1)
-            {
-                cout<<"Tautology found "<<endl;
-            	cout<<"New clause "<<new_clause<<endl;
-            }*/
-
-            return 0;
+           return 0;
         }
     }
-    //cout<<"Not resolved \n";
-    //strcpy(new_clause,"");
     return 0;
 }
 
 int process_query(string query)
 {
-
-
     //cout<<"QUERY is "<<query<<endl;
     queue <string> sos;
     map<string, int> sos_map;
-
-    //char *neg_query = (char*)malloc(sizeof(char)*1001);
     char neg_query[1001];
-    //char clausei[1001];
-    //char clausej[1001];
     string clausei;
     string clausej;
     int result,found;
     result = 1;
     found = 0;
     char* new_clause = (char*)malloc(sizeof(char)*100001);
-    //string new_clause;
 
 
     if(query[0] != '~')
@@ -833,28 +601,18 @@ int process_query(string query)
     }
 
     sos.push(neg_query);
-
-
     clock_t begin = clock();
-    //cout<<"begin "<<begin<<endl;
 
     while(!sos.empty())
     {
         clausei = sos.front();
-        //cout<<"CLAUSE I "<<clausei<<"   ";
         sos.pop();
-        //cout<<"CLAUSES IN KB PROCESSED\n";
         for(it_kb=kb.begin();it_kb != kb.end();it_kb++)
         {
             clausej = it_kb->first;
-            //cout<<"clause j "<<clausej<<"   "<<endl;
             result = resolve(clausei,clausej,new_clause);
-            //cout<<"New clause returned is "<<new_clause<<endl;
-            //ofile<<"New clause returned is "<<new_clause<<endl;
 
             clock_t end = clock();
-            //cout<<"end  "<<end<<endl;
-            //cout<<"seconds "<<seconds<<endl;
             double seconds = double(end - begin) / CLOCKS_PER_SEC;
             if(seconds > 10)
             {
@@ -868,24 +626,16 @@ int process_query(string query)
             }
             else
             {
-                // new_clause is not empty
                 map<string,int>::iterator it_find;
                 string temp_clause;
 
                 if(strcmp(new_clause,""))
                 {
                     temp_clause = new_clause;
-
-                    //cout<<"New clause in query function "<<new_clause<<endl;
-                    //cout<<"Temp Clause in query function "<<temp_clause<<endl;
                 }
-                //cout<<"Till here\n";
-
-                //it_find = kb.find(temp_clause);
 
                 if(strcmp(new_clause,""))
                 {
-                    //it_find = kb.find(temp_clause);
                     if(it_find == kb.end())
                     {
                         kb.insert(pair<string,int>(temp_clause,1));
@@ -903,18 +653,14 @@ int process_query(string query)
         if(found == 1)
             break;
     }
-    //cout<<"1\n";
     if(found == 1)
     {
-        //cout<<"True"<<endl;
         return 1;
     }
     else
     {
-        //cout<<"False"<<endl;
         return 0;
     }
-    //cout<<"End of process_query function\n";
     free(new_clause);
     new_clause = NULL;
 
@@ -973,17 +719,14 @@ char* to_cnf(char *expr, vector <string>* vct)
 
 
             strcpy(val1, to_cnf(expr1,&vector1));
-            //cout<<"came\n";
             strcpy(val2, to_cnf(expr2,&vector2));
 
             vector <string>::iterator it1;
             vector <string>::iterator it2;
             if(op == '|')
             {
-                //cout<<"11111111\n";
                 if((val1[0] != '#') && (val2[0] != '#'))
                 {
-                    //cout<<"A\n";
                     strcpy(str5,val1);
                     strcat(str5,(const char*)"|");
                     strcat(str5,val2);
@@ -991,7 +734,6 @@ char* to_cnf(char *expr, vector <string>* vct)
                 }
                 else if((val1[0] != '#') && (val2[0] == '#'))
                 {
-                    //cout<<"B\n";
                     for(it2 = vector2.begin(); it2 != vector2.end(); it2++)
                     {
                         string a = *it2;
@@ -1005,7 +747,6 @@ char* to_cnf(char *expr, vector <string>* vct)
                 }
                 else if((val1[0] == '#') && (val2[0] != '#'))
                 {
-                    //cout<<"C\n";
                     for(it1 = vector1.begin();it1 != vector1.end();it1++)
                     {
                         string a = *it1;
@@ -1017,7 +758,6 @@ char* to_cnf(char *expr, vector <string>* vct)
                 }
                 else if((val1[0] == '#') && (val2[0] == '#'))
                 {
-                    //cout<<"D\n";
                     for(it1 = vector1.begin();it1 != vector1.end(); it1++)
                     {
                         for(it2 = vector2.begin();it2 != vector2.end();it2++)
@@ -1034,19 +774,14 @@ char* to_cnf(char *expr, vector <string>* vct)
             }
             else if(op == '&')
             {
-                //cout<<"222222\n";
                 if((val1[0] != '#') && (val2[0] != '#'))
                 {
-                    //cout<<"Case 1\n";
-                    //vct.reserve(1000);
-                    //cout<<"E\n";
                     vct->push_back((string)val1);
                     vct->push_back((string)val2);
 
                 }
                 else if((val1[0] != '#') && (val2[0] == '#'))
                 {
-                    //cout<<"F\n";
                     vct->push_back(val1);
                     for(it2 = vector2.begin();it2 != vector2.end();it2++)
                     {
@@ -1055,7 +790,6 @@ char* to_cnf(char *expr, vector <string>* vct)
                 }
                 else if((val1[0] == '#') && (val2[0] != '#'))
                 {
-                    //cout<<"G\n";
                     vct->push_back(val2);
                     for(it1 = vector1.begin();it1 != vector1.end();it1++)
                     {
@@ -1064,7 +798,6 @@ char* to_cnf(char *expr, vector <string>* vct)
                 }
                 else if((val1[0] == '#') && (val2[0] == '#'))
                 {
-                    //cout<<"H\n";
                     for(it1 = vector1.begin();it1 != vector1.end();it1++)
                     {
                         vct->push_back(*it1);
@@ -1075,7 +808,6 @@ char* to_cnf(char *expr, vector <string>* vct)
                     }
                 }
             }
-            //cout<<"here\n";
             strcpy(str5,"####");
             return str5;
         }
@@ -1106,8 +838,6 @@ int main()
     {
         getline(ifile,q);
         q.erase(std::remove(q.begin(),q.end(),' '),q.end());
-        //cout<<"QUERIES\n";
-        //cout<<q<<endl;
         query[i] = q;
     }
 
@@ -1161,25 +891,7 @@ int main()
             }
         }
     }
-
-    /*cout<<"PREDICATES STARTED\n";
-    for(iter=kbase.begin(); iter != kbase.end();iter++)
-    {
-        //cout<<iter->first;
-        //cout<<endl;
-        //ofile<<iter->first<<endl;
-    }
-    cout<<"predicates received\n";*/
-
-    /*cout<<"New kb\n";
-    for(it_kb=kb.begin(); it_kb != kb.end();it_kb++)
-    {
-        cout<<it_kb->first;
-        cout<<endl;
-        ofile<<it_kb->first<<endl;
-    }
-    cout<<"End of kb\n";*/
-
+	
     int z = 0;
     for(z=0;z<query_num;z++)
     {
@@ -1193,20 +905,6 @@ int main()
             ofile<<"FALSE\n";
         }
     }
-
-    //int rs = 1;
-    /*int rs = process_query("Frustrated(Bill)");
-    if(rs == 1)
-    {
-        ofile<<"TRUE\n";
-        cout<<"TRUE\n";
-    }
-    else
-    {
-        ofile<<"FALSE\n";
-        cout<<"FALSE\n";
-    }*/
-
 
     ofile.close();
     return 0;

@@ -61,7 +61,6 @@ bool bfs_search(string start_state, string goal_state)
       {
         while(it1 != it->second.end())
         {
-          //search it1-state in explored vector
           it_parent = parent.find(it1->state);
           if(it_parent == parent.end())
           {
@@ -175,7 +174,6 @@ bool ucs_search(string start_state, string goal_state)
     backup.erase(curr_node.state);
     explored.insert(pair<string,int>(curr_node.state,curr_node.weight));
 
-    //cout<<curr_node.state<<endl;
     if(curr_node.state == goal_state)
       return true;
 
@@ -191,21 +189,11 @@ bool ucs_search(string start_state, string goal_state)
           it_backup = backup.find(it1->state);
           it_parent = parent.find(it1->state);
 
-          /*struct node nn;
-          nn.state = it1->state;
-          nn.weight = it1->weight + curr_node.weight;
-
-          struct node np;
-          np.state = curr_node.state;
-          np.weight = nn.weight;*/
-
           if(it_explored == explored.end() && (it_backup == backup.end()))
           {
-            //not found. we have to add
-            //cout<<"Case1\n";
             struct node nn;
             nn.state = it1->state;
-            nn.weight = it1->weight + curr_node.weight; // check again
+            nn.weight = it1->weight + curr_node.weight;
             pq.push(nn);
             backup.insert(pair<string,int>(it1->state,nn.weight));
             struct node np;
@@ -215,10 +203,8 @@ bool ucs_search(string start_state, string goal_state)
           }
           else if(it_backup != backup.end())
           {
-            //cout<<"case2\n";
             if(it_backup->second > (it1->weight + curr_node.weight))
             {
-              //cout<<"heavier\n";
                 struct node nn;
                 nn.state = it1->state;
                 nn.weight = curr_node.weight + it1->weight;
@@ -247,19 +233,14 @@ bool ucs_search(string start_state, string goal_state)
           }
           else if(it_explored != explored.end())
           {
-            //cout<<"case3\n";
-            // found we have to update
             if(it_explored->second > (it1->weight + curr_node.weight))
             {
               struct node nn;
               nn.state = it1->state;
               nn.weight = it1->weight + curr_node.weight;
               explored.erase(it_explored);
-              //parent.erase(it_parent);
               it_parent->second.state = curr_node.state;
               it_parent->second.weight = nn.weight;
-              //it_parent->second.state = curr_node.state;
-              //it_parent->second.weight = it1->weight + curr_node.weight;
               pq.push(nn);
               backup.insert(pair<string,int>(it1->state,nn.weight));
             }
@@ -336,8 +317,6 @@ bool astar_search(string start_state, string goal_state)
 
           if(it_explored == explored.end() && it_backup == backup.end())
           {
-            //not found. we have to add
-            //cout<<"case1 ";
             struct star_node nn;
             nn.state = it1->state;
             nn.actual_weight = it1->weight + curr_node.actual_weight;
@@ -352,13 +331,8 @@ bool astar_search(string start_state, string goal_state)
           }
           else if(it_backup != backup.end())
           {
-            // found we have to update
-            //cout<<"case2\n";
-
             if(it_backup->second > (curr_node.actual_weight + it1->weight + heuristic))
             {
-              //cout<<"heavier\n";
-              //cout<<it_backup->first<<endl;
               struct star_node nn;
               nn.state = it1->state;
               nn.weight = curr_node.actual_weight + it1->weight + heuristic;
@@ -389,7 +363,6 @@ bool astar_search(string start_state, string goal_state)
           }
             else if(it_explored != explored.end())
             {
-              //cout<<"case3 ";
               if(it_explored->second > (it1->weight + curr_node.actual_weight + heuristic))
               {
                 struct star_node nn;
@@ -397,7 +370,6 @@ bool astar_search(string start_state, string goal_state)
                 nn.weight = it1->weight + curr_node.actual_weight + heuristic;
                 nn.actual_weight = it1->weight + curr_node.actual_weight;
                 explored.erase(it1->state);
-                //parent.erase(it1->state);
                 it_parent->second.state = curr_node.state;
               	it_parent->second.weight = nn.actual_weight;
                 pq.push(nn);
@@ -449,14 +421,12 @@ int main()
       it = graph.find(state1);
       if(it == graph.end())
       {
-        // not found;
         vector <struct node> connection;
        	connection.push_back(n1);
         graph.insert(pair< string,vector<struct node> >(state1,connection));
       }
       else
       {
-        // found
         it->second.push_back(n1);
       }
     }
@@ -476,12 +446,10 @@ int main()
       sun_it = sun_graph.find(state1);
       if(sun_it == sun_graph.end())
       {
-        // not found
         sun_graph.insert(pair<string,int>(state1,distance));
       }
       else
       {
-        //found
         sun_it->second = distance;
       }
     }
@@ -499,7 +467,6 @@ int main()
         {
           while(it_parent->first != start_state)
           {
-            //cout<<it_parent->first<<" "<<it_parent->second.weight<<endl;
             p.push(it_parent->first);
             q.push(it_parent->second.weight);
             it_parent = parent.find(it_parent->second.state);
@@ -577,7 +544,6 @@ int main()
       map <string,struct node>::iterator it_parent;
       if(astar_search(start_state, goal_state))
       {
-        //cout<<"in astr\n";
         stack <string> p;
         stack <int> q;
         it_parent = parent.find(goal_state);
